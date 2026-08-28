@@ -264,12 +264,12 @@ export default function App() {
             className="text-primary font-extrabold text-[clamp(1.25rem,3vw,2rem)] uppercase tracking-[0.15em] mb-8"
             style={{ fontFamily: "Baloo 2, sans-serif" }}
           >
-            Saw them coming.
+            He saw them coming.
           </p>
 
           <p className="text-muted-foreground text-lg md:text-xl max-w-4xl mx-auto mb-12 leading-relaxed">
             Jeff built the fence before anyone asked why. He stocked the bunker before anyone else noticed the wolves.
-            He was right once, in 2019, about a raccoon and he has{" "}
+            He was right once, in 2019, about a raccoon — and he has{" "}
             <span className="text-foreground font-bold italic">never let it go.</span>{" "}
             This is his compound. His rules. His{" "}
             <span className="text-primary font-bold">very strongly held opinions about perimeter security.</span>
@@ -380,17 +380,21 @@ export default function App() {
 
       {/* Meet Jeff / Dossier */}
       <section id="about" className="py-24 bg-card/75 backdrop-blur-sm border-t border-border overflow-hidden relative">
-        {/* Jeff full-body — peeks in from the left, cut by overflow-hidden */}
-        <ImageWithFallback
-          src={jeffFullBody}
-          alt="Jeff the pig, standing in full military gear"
-          className="hidden lg:block absolute top-1/2 left-0 -translate-y-1/2 h-[75%] w-auto object-contain pointer-events-none"
-          style={{ filter: "drop-shadow(6px 0 16px rgba(0,0,0,0.6))" }}
-        />
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex flex-col lg:flex-row items-center justify-center gap-10">
 
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="grid md:grid-cols-2 gap-16 items-start">
-            <div>
+            {/* Jeff full-body */}
+            <div className="shrink-0 flex items-center justify-center">
+              <ImageWithFallback
+                src={jeffFullBody}
+                alt="Jeff the pig, standing in full military gear"
+                className="h-[480px] w-auto object-contain"
+                style={{ filter: "drop-shadow(6px 0 16px rgba(0,0,0,0.6))" }}
+              />
+            </div>
+
+            {/* Text */}
+            <div className="shrink-0 max-w-sm">
               <div className="text-accent text-xs font-bold uppercase tracking-[0.3em] mb-4">Classified Dossier</div>
               <h2
                 className="text-5xl md:text-6xl font-extrabold uppercase leading-tight mb-6"
@@ -398,13 +402,11 @@ export default function App() {
               >
                 Meet <span className="text-primary">Jeff</span>
               </h2>
-
               <div className="flex flex-wrap gap-3 mb-8 text-xs uppercase tracking-widest font-bold" style={{ fontFamily: "Baloo 2, sans-serif" }}>
                 <span className="comic-sticker bg-background px-3 py-1.5 rotate-[-1deg] inline-block">Status: Prepared</span>
                 <span className="comic-sticker bg-background px-3 py-1.5 rotate-[1deg] inline-block">Location: Fortified Compound</span>
                 <span className="comic-sticker bg-background px-3 py-1.5 rotate-[-1deg] inline-block">Priorities: Home, Borders, Snacks</span>
               </div>
-
               <p className="text-muted-foreground text-lg leading-relaxed mb-6">
                 Jeff doesn't believe danger announces itself. He believes preparation is responsibility, and that
                 responsibility is best measured in fence height. When wolves start moving through the forest,
@@ -417,7 +419,8 @@ export default function App() {
               </p>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            {/* Inventory grid */}
+            <div className="grid grid-cols-2 gap-4 shrink-0">
               {INVENTORY.map(({ img, name, note }) => (
                 <div
                   key={name}
@@ -440,6 +443,7 @@ export default function App() {
                 </div>
               ))}
             </div>
+
           </div>
         </div>
       </section>
