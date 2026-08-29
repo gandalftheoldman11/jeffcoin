@@ -156,7 +156,7 @@ export default function App() {
       className="min-h-screen bg-background text-foreground overflow-x-hidden relative"
       style={{ fontFamily: "Nunito, sans-serif" }}
     >
-      {/* Fixed background image with theme-matched overlay */}
+      {/* Fixed background */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -165,7 +165,6 @@ export default function App() {
             filter: "brightness(0.55) saturate(0.75) sepia(0.1) contrast(1.05)",
           }}
         />
-        {/* Gradient overlay: lighter now, just enough to keep text readable */}
         <div
           className="absolute inset-0"
           style={{
@@ -173,447 +172,470 @@ export default function App() {
               "linear-gradient(180deg, rgba(20,18,15,0.55) 0%, rgba(20,18,15,0.4) 30%, rgba(20,18,15,0.55) 70%, rgba(20,18,15,0.75) 100%)",
           }}
         />
-        {/* Subtle vignette at top/bottom edges only, so the middle stays clearest */}
         <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-background/40" />
       </div>
 
-      {/* Page content sits above the fixed background */}
       <div className="relative z-10">
 
-      {/* Nav */}
-      <nav className="fixed top-0 left-0 right-0 z-50 border-b-[3px] border-ink bg-background/95 backdrop-blur-md">
-        <div className="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <ImageWithFallback
-              src={jeffLogo}
-              alt="Jeff the pig, looking suspicious"
-              className="w-10 h-10 rounded-full object-cover border-[3px] border-ink shadow-[2px_2px_0_0_var(--comic-shadow-ink)]"
-            />
-            <ImageWithFallback
-              src={jeffBannerText}
-              alt="JEFF"
-              className="h-8 w-auto object-contain"
-            />
-          </div>
-          <div className="hidden md:flex items-center gap-8 text-sm text-muted-foreground uppercase tracking-widest font-bold">
-            {[
-              { label: "The Story", href: "#story" },
-              { label: "The Dossier", href: "#about" },
-              { label: "The Rules", href: "#rules" },
-              { label: "The Line", href: "#the-line" },
-            ].map((item) => (
+        {/* Nav */}
+        <nav className="fixed top-0 left-0 right-0 z-50 border-b-[3px] border-ink bg-background/95 backdrop-blur-md">
+          <div className="max-w-6xl mx-auto px-3 sm:px-6 py-3 flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+              <ImageWithFallback
+                src={jeffLogo}
+                alt="Jeff the pig, looking suspicious"
+                className="w-9 h-9 sm:w-10 sm:h-10 rounded-full object-cover border-[3px] border-ink shadow-[2px_2px_0_0_var(--comic-shadow-ink)] shrink-0"
+              />
+              <ImageWithFallback
+                src={jeffBannerText}
+                alt="JEFF"
+                className="h-7 sm:h-8 w-auto object-contain"
+              />
+            </div>
+
+            {/* Desktop nav links */}
+            <div className="hidden md:flex items-center gap-8 text-sm text-muted-foreground uppercase tracking-widest font-bold">
+              {[
+                { label: "The Story", href: "#story" },
+                { label: "The Dossier", href: "#about" },
+                { label: "The Rules", href: "#rules" },
+                { label: "The Line", href: "#the-line" },
+              ].map((item) => (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  className="hover:text-primary transition-colors duration-200"
+                >
+                  {item.label}
+                </a>
+              ))}
+            </div>
+
+            <div className="flex items-center gap-2">
               <a
-                key={item.label}
-                href={item.href}
-                className="hover:text-primary transition-colors duration-200"
+                href="https://x.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="comic-btn flex items-center gap-1.5 bg-[#000000] text-white px-3 sm:px-4 py-2 rounded-full font-bold uppercase tracking-wider text-xs sm:text-sm"
+                style={{ fontFamily: "Baloo 2, sans-serif" }}
               >
-                {item.label}
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" className="shrink-0">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.259 5.63 5.905-5.63Zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                </svg>
+                <span className="hidden sm:inline">Follow</span>
               </a>
-            ))}
+              <a
+                href="https://pump.fun"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="comic-btn flex items-center gap-1.5 bg-accent text-accent-foreground px-3 sm:px-4 py-2 rounded-full font-bold uppercase tracking-wider text-xs sm:text-sm"
+                style={{ fontFamily: "Baloo 2, sans-serif" }}
+              >
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" className="shrink-0">
+                  <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                </svg>
+                Buy
+              </a>
+            </div>
           </div>
-          <div className="flex items-center gap-3">
-            <a
-              href="https://x.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="comic-btn flex items-center gap-2 bg-[#000000] text-white px-4 py-2 rounded-full font-bold uppercase tracking-wider text-sm"
+        </nav>
+
+        {/* Hero */}
+        <section className="relative pt-16 sm:pt-20 min-h-screen flex flex-col justify-center overflow-hidden">
+          <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-20 text-center">
+            <div className="comic-panel mb-8 sm:mb-10 rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden max-w-xs sm:max-w-xl md:max-w-3xl mx-auto rotate-[-0.5deg]">
+              <ImageWithFallback
+                src={jeffTitleImage}
+                alt="Jeff, a pig in an olive jacket and stars-and-stripes bandana, leaning on a cannon atop his stone compound"
+                className="w-full h-auto object-cover"
+              />
+            </div>
+
+            <div className="flex justify-center mb-3">
+              <img
+                src={jeffBannerText}
+                alt="JEFF"
+                className="w-full max-w-[18rem] sm:max-w-lg md:max-w-2xl h-auto object-contain"
+              />
+            </div>
+
+            <p
+              className="text-primary font-extrabold text-lg sm:text-[clamp(1.25rem,3vw,2rem)] uppercase tracking-[0.15em] mb-6 sm:mb-8"
               style={{ fontFamily: "Baloo 2, sans-serif" }}
             >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.259 5.63 5.905-5.63Zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-              </svg>
-              Follow
-            </a>
-            <a
-              href="https://pump.fun"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="comic-btn flex items-center gap-2 bg-accent text-accent-foreground px-4 py-2 rounded-full font-bold uppercase tracking-wider text-sm"
-              style={{ fontFamily: "Baloo 2, sans-serif" }}
-            >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-              </svg>
-              Buy
-            </a>
-          </div>
-        </div>
-      </nav>
-
-      {/* Hero */}
-      <section className="relative pt-20 min-h-screen flex flex-col justify-center overflow-hidden">
-
-        <div className="relative z-10 max-w-6xl mx-auto px-6 py-20 text-center">
-          <div className="comic-panel mb-10 rounded-[2rem] overflow-hidden max-w-3xl mx-auto rotate-[-0.5deg]">
-            <ImageWithFallback
-              src={jeffTitleImage}
-              alt="Jeff, a pig in an olive jacket and stars-and-stripes bandana, leaning on a cannon atop his stone compound"
-              className="w-full h-auto object-cover"
-            />
-          </div>
-
-          <div className="flex justify-center mb-3">
-            <img
-              src={jeffBannerText}
-              alt="JEFF"
-              className="w-full max-w-2xl h-auto object-contain"
-            />
-          </div>
-
-          <p
-            className="text-primary font-extrabold text-[clamp(1.25rem,3vw,2rem)] uppercase tracking-[0.15em] mb-8"
-            style={{ fontFamily: "Baloo 2, sans-serif" }}
-          >
-            He saw them coming.
-          </p>
-
-          <p className="text-muted-foreground text-lg md:text-xl max-w-4xl mx-auto mb-12 leading-relaxed">
-            Jeff built the fence before anyone asked why. He stocked the bunker before anyone else noticed the wolves.
-            He was right once, in 2019, about a raccoon and he has{" "}
-            <span className="text-foreground font-bold italic">never let it go.</span>{" "}
-            This is his compound. His rules. His{" "}
-            <span className="text-primary font-bold">very strongly held opinions about perimeter security.</span>
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-5 justify-center mb-16">
-            <a
-              href="#about"
-              className="comic-btn group flex items-center justify-center gap-2 bg-primary text-primary-foreground px-8 py-4 rounded-full font-extrabold uppercase tracking-widest text-sm"
-              style={{ fontFamily: "Baloo 2, sans-serif" }}
-            >
-              Enter The Compound
-              <ExternalLink size={14} className="opacity-70" />
-            </a>
-            <a
-              href="#the-line"
-              className="comic-btn group flex items-center justify-center gap-2 bg-accent text-accent-foreground px-8 py-4 rounded-full font-extrabold text-sm uppercase tracking-widest"
-              style={{ fontFamily: "Baloo 2, sans-serif" }}
-            >
-              Meet The Wolves
-            </a>
-          </div>
-
-        </div>
-
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce text-primary">
-          <ChevronDown size={28} strokeWidth={3} />
-        </div>
-      </section>
-
-      <Ticker />
-
-      {/* Origin — the story of three brothers */}
-      <section id="story" className="py-24 border-t border-border">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center mb-12">
-            <h2
-              className="text-5xl md:text-6xl font-extrabold uppercase"
-              style={{ fontFamily: "'Goudy Stout', serif", WebkitTextStroke: "6px #000", paintOrder: "stroke fill", color: "#f7dbbf" }}
-            >
-              Three Brothers. <span className="text-primary">One Forest.</span>
-            </h2>
-            <p className="text-muted-foreground mt-4 text-lg max-w-2xl mx-auto">
-              Same mother, same forest, same wolves at the door. What each brother built is the whole story.
+              He saw them coming.
             </p>
+
+            <p className="text-muted-foreground text-base sm:text-lg md:text-xl max-w-4xl mx-auto mb-10 sm:mb-12 leading-relaxed">
+              Jeff built the fence before anyone asked why. He stocked the bunker before anyone else noticed the wolves.
+              He was right once, in 2019, about a raccoon and he has{" "}
+              <span className="text-foreground font-bold italic">never let it go.</span>{" "}
+              This is his compound. His rules. His{" "}
+              <span className="text-primary font-bold">very strongly held opinions about perimeter security.</span>
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-5 justify-center mb-12 sm:mb-16 px-2 sm:px-0">
+              <a
+                href="#about"
+                className="comic-btn group flex items-center justify-center gap-2 bg-primary text-primary-foreground px-6 sm:px-8 py-3.5 sm:py-4 rounded-full font-extrabold uppercase tracking-widest text-sm"
+                style={{ fontFamily: "Baloo 2, sans-serif" }}
+              >
+                Enter The Compound
+                <ExternalLink size={14} className="opacity-70" />
+              </a>
+              <a
+                href="#the-line"
+                className="comic-btn group flex items-center justify-center gap-2 bg-accent text-accent-foreground px-6 sm:px-8 py-3.5 sm:py-4 rounded-full font-extrabold text-sm uppercase tracking-widest"
+                style={{ fontFamily: "Baloo 2, sans-serif" }}
+              >
+                Meet The Wolves
+              </a>
+            </div>
           </div>
 
-          <div className="space-y-6">
-            {BROTHERS.map(({ name, tag, house, body, outcome, img, imgAlt }) => (
-              <div key={name} className="comic-panel bg-card rounded-2xl p-8 opacity-90 flex gap-6 items-center">
-                <div className="shrink-0 w-36 h-36 md:w-44 md:h-44 rounded-xl overflow-hidden border-2 border-border bg-background flex items-end justify-center">
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce text-primary">
+            <ChevronDown size={28} strokeWidth={3} />
+          </div>
+        </section>
+
+        <Ticker />
+
+        {/* Origin — the story of three brothers */}
+        <section id="story" className="py-16 sm:py-24 border-t border-border">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6">
+            <div className="text-center mb-10 sm:mb-12">
+              <h2
+                className="font-extrabold uppercase"
+                style={{
+                  fontFamily: "'Goudy Stout', serif",
+                  WebkitTextStroke: "4px #000",
+                  paintOrder: "stroke fill",
+                  color: "#f7dbbf",
+                  fontSize: "clamp(2rem, 7vw, 3.75rem)",
+                }}
+              >
+                Three Brothers. <span className="text-primary">One Forest.</span>
+              </h2>
+              <p className="text-muted-foreground mt-3 sm:mt-4 text-base sm:text-lg max-w-2xl mx-auto">
+                Same mother, same forest, same wolves at the door. What each brother built is the whole story.
+              </p>
+            </div>
+
+            <div className="space-y-5 sm:space-y-6">
+              {BROTHERS.map(({ name, tag, house, body, outcome, img, imgAlt }) => (
+                <div key={name} className="comic-panel bg-card rounded-2xl p-5 sm:p-8 opacity-90 flex flex-col sm:flex-row gap-5 sm:gap-6">
+                  {/* Image — full-width strip on mobile, square thumbnail on sm+ */}
+                  <div className="w-full h-44 sm:w-36 sm:h-36 md:w-44 md:h-44 rounded-xl overflow-hidden border-2 border-border bg-background flex items-end justify-center shrink-0">
+                    <img
+                      src={img}
+                      alt={imgAlt}
+                      className="w-full h-full object-cover object-top"
+                    />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-baseline gap-3 mb-2 flex-wrap">
+                      <h3
+                        className="text-xl sm:text-2xl font-extrabold uppercase tracking-wide text-muted-foreground"
+                        style={{ fontFamily: "Baloo 2, sans-serif" }}
+                      >
+                        {name}
+                      </h3>
+                      <span className="text-xs uppercase tracking-widest font-bold text-accent">{tag}</span>
+                    </div>
+                    <p className="text-sm text-muted-foreground/80 italic mb-3">{house}</p>
+                    <p className="text-muted-foreground leading-relaxed mb-3 text-sm sm:text-base">{body}</p>
+                    <p className="text-xs sm:text-sm text-muted-foreground/70">{outcome}</p>
+                  </div>
+                </div>
+              ))}
+
+              {/* Jeff card */}
+              <div className="comic-panel bg-primary/5 rounded-2xl p-5 sm:p-8 rotate-[-0.3deg] flex flex-col sm:flex-row gap-5 sm:gap-6">
+                <div className="w-full h-44 sm:w-36 sm:h-36 md:w-44 md:h-44 rounded-xl overflow-hidden border-2 border-primary/30 bg-background flex items-end justify-center shrink-0">
                   <img
-                    src={img}
-                    alt={imgAlt}
+                    src={jeffImg}
+                    alt="Jeff the pig, in military jacket with a pipe, looking confident"
                     className="w-full h-full object-cover object-top"
                   />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-baseline gap-3 mb-2">
+                  <div className="flex items-baseline gap-3 mb-2 flex-wrap">
                     <h3
-                      className="text-2xl font-extrabold uppercase tracking-wide text-muted-foreground"
+                      className="text-xl sm:text-2xl font-extrabold uppercase tracking-wide text-primary"
+                      style={{ fontFamily: "Baloo 2, sans-serif" }}
+                    >
+                      Jeff
+                    </h3>
+                    <span className="text-xs uppercase tracking-widest font-bold text-accent">The Youngest</span>
+                  </div>
+                  <p className="text-sm text-foreground/70 italic mb-3">
+                    A house of brick and stone, with a fence he'd already built before anyone asked why.
+                  </p>
+                  <p className="text-foreground leading-relaxed font-medium text-sm sm:text-base">
+                    Jeff watched both of his brothers lose their houses in the same afternoon. He didn't argue with the
+                    wolves and he didn't invite them in — he'd already locked the gate, armed the perimeter, and was
+                    watching the whole thing through a scope. When the wolves reached his walls, they turned around.
+                    Jeff has told this story at every family dinner since. He is, by his own account, "just built
+                    different."
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Meet Jeff / Dossier */}
+        <section id="about" className="py-16 sm:py-24 bg-card/75 backdrop-blur-sm border-t border-border overflow-hidden relative">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6">
+            <div className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-10">
+
+              {/* Jeff full-body — shorter on mobile */}
+              <div className="shrink-0 flex items-center justify-center">
+                <ImageWithFallback
+                  src={jeffFullBody}
+                  alt="Jeff the pig, standing in full military gear"
+                  className="h-[260px] sm:h-[360px] lg:h-[480px] w-auto object-contain"
+                  style={{ filter: "drop-shadow(6px 0 16px rgba(0,0,0,0.6))" }}
+                />
+              </div>
+
+              {/* Text — full width on mobile */}
+              <div className="w-full sm:max-w-sm shrink-0">
+                <div className="text-accent text-xs font-bold uppercase tracking-[0.3em] mb-3 sm:mb-4">Classified Dossier</div>
+                <h2
+                  className="font-extrabold uppercase leading-tight mb-5 sm:mb-6"
+                  style={{
+                    fontFamily: "'Goudy Stout', serif",
+                    WebkitTextStroke: "4px #000",
+                    paintOrder: "stroke fill",
+                    color: "#f7dbbf",
+                    fontSize: "clamp(2rem, 7vw, 3.75rem)",
+                  }}
+                >
+                  Meet <span className="text-primary">Jeff</span>
+                </h2>
+                <div className="flex flex-wrap gap-2 sm:gap-3 mb-6 sm:mb-8 text-xs uppercase tracking-widest font-bold" style={{ fontFamily: "Baloo 2, sans-serif" }}>
+                  <span className="comic-sticker bg-background px-3 py-1.5 rotate-[-1deg] inline-block">Status: Prepared</span>
+                  <span className="comic-sticker bg-background px-3 py-1.5 rotate-[1deg] inline-block">Location: Fortified Compound</span>
+                  <span className="comic-sticker bg-background px-3 py-1.5 rotate-[-1deg] inline-block">Priorities: Home, Borders, Snacks</span>
+                </div>
+                <p className="text-muted-foreground text-base sm:text-lg leading-relaxed mb-4 sm:mb-6">
+                  Jeff doesn't believe danger announces itself. He believes preparation is responsibility, and that
+                  responsibility is best measured in fence height. When wolves start moving through the forest,
+                  Jeff sees the threat before anyone else does — mostly because he's the only one still awake at 3am
+                  with binoculars.
+                </p>
+                <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">
+                  He read one (1) article about wolf migration patterns in 2021 and has not, by his own account,
+                  <span className="text-foreground font-bold"> "stopped doing the research."</span>
+                </p>
+              </div>
+
+              {/* Inventory grid */}
+              <div className="grid grid-cols-2 gap-3 sm:gap-4 w-full sm:w-auto shrink-0">
+                {INVENTORY.map(({ img, name, note }) => (
+                  <div
+                    key={name}
+                    className="comic-panel bg-background rounded-2xl p-3 sm:p-5 hover:bg-primary/5 group cursor-default"
+                  >
+                    <div className="w-10 h-10 sm:w-14 sm:h-14 flex items-center justify-center mb-2 sm:mb-3">
+                      <img
+                        src={img}
+                        alt={name}
+                        className="w-full h-full object-contain drop-shadow-sm group-hover:scale-110 transition-transform duration-200"
+                      />
+                    </div>
+                    <div
+                      className="font-extrabold uppercase text-xs sm:text-sm tracking-wide mb-1 group-hover:text-primary transition-colors"
                       style={{ fontFamily: "Baloo 2, sans-serif" }}
                     >
                       {name}
-                    </h3>
-                    <span className="text-xs uppercase tracking-widest font-bold text-accent">{tag}</span>
-                  </div>
-                  <p className="text-sm text-muted-foreground/80 italic mb-3">{house}</p>
-                  <p className="text-muted-foreground leading-relaxed mb-3">{body}</p>
-                  <p className="text-sm text-muted-foreground/70">{outcome}</p>
-                </div>
-              </div>
-            ))}
-
-            <div className="comic-panel bg-primary/5 rounded-2xl p-8 rotate-[-0.3deg] flex gap-6 items-center">
-              <div className="shrink-0 w-36 h-36 md:w-44 md:h-44 rounded-xl overflow-hidden border-2 border-primary/30 bg-background flex items-end justify-center">
-                <img
-                  src={jeffImg}
-                  alt="Jeff the pig, in military jacket with a pipe, looking confident"
-                  className="w-full h-full object-cover object-top"
-                />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-baseline gap-3 mb-2">
-                  <h3
-                    className="text-2xl font-extrabold uppercase tracking-wide text-primary"
-                    style={{ fontFamily: "Baloo 2, sans-serif" }}
-                  >
-                    Jeff
-                  </h3>
-                  <span className="text-xs uppercase tracking-widest font-bold text-accent">The Youngest</span>
-                </div>
-                <p className="text-sm text-foreground/70 italic mb-3">
-                  A house of brick and stone, with a fence he'd already built before anyone asked why.
-                </p>
-                <p className="text-foreground leading-relaxed font-medium">
-                  Jeff watched both of his brothers lose their houses in the same afternoon. He didn't argue with the
-                  wolves and he didn't invite them in — he'd already locked the gate, armed the perimeter, and was
-                  watching the whole thing through a scope. When the wolves reached his walls, they turned around.
-                  Jeff has told this story at every family dinner since. He is, by his own account, "just built
-                  different."
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Meet Jeff / Dossier */}
-      <section id="about" className="py-24 bg-card/75 backdrop-blur-sm border-t border-border overflow-hidden relative">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex flex-col lg:flex-row items-center justify-center gap-10">
-
-            {/* Jeff full-body */}
-            <div className="shrink-0 flex items-center justify-center">
-              <ImageWithFallback
-                src={jeffFullBody}
-                alt="Jeff the pig, standing in full military gear"
-                className="h-[480px] w-auto object-contain"
-                style={{ filter: "drop-shadow(6px 0 16px rgba(0,0,0,0.6))" }}
-              />
-            </div>
-
-            {/* Text */}
-            <div className="shrink-0 max-w-sm">
-              <div className="text-accent text-xs font-bold uppercase tracking-[0.3em] mb-4">Classified Dossier</div>
-              <h2
-                className="text-5xl md:text-6xl font-extrabold uppercase leading-tight mb-6"
-                style={{ fontFamily: "'Goudy Stout', serif", WebkitTextStroke: "6px #000", paintOrder: "stroke fill", color: "#f7dbbf" }}
-              >
-                Meet <span className="text-primary">Jeff</span>
-              </h2>
-              <div className="flex flex-wrap gap-3 mb-8 text-xs uppercase tracking-widest font-bold" style={{ fontFamily: "Baloo 2, sans-serif" }}>
-                <span className="comic-sticker bg-background px-3 py-1.5 rotate-[-1deg] inline-block">Status: Prepared</span>
-                <span className="comic-sticker bg-background px-3 py-1.5 rotate-[1deg] inline-block">Location: Fortified Compound</span>
-                <span className="comic-sticker bg-background px-3 py-1.5 rotate-[-1deg] inline-block">Priorities: Home, Borders, Snacks</span>
-              </div>
-              <p className="text-muted-foreground text-lg leading-relaxed mb-6">
-                Jeff doesn't believe danger announces itself. He believes preparation is responsibility, and that
-                responsibility is best measured in fence height. When wolves start moving through the forest,
-                Jeff sees the threat before anyone else does — mostly because he's the only one still awake at 3am
-                with binoculars.
-              </p>
-              <p className="text-muted-foreground text-lg leading-relaxed">
-                He read one (1) article about wolf migration patterns in 2021 and has not, by his own account,
-                <span className="text-foreground font-bold"> "stopped doing the research."</span>
-              </p>
-            </div>
-
-            {/* Inventory grid */}
-            <div className="grid grid-cols-2 gap-4 shrink-0">
-              {INVENTORY.map(({ img, name, note }) => (
-                <div
-                  key={name}
-                  className="comic-panel bg-background rounded-2xl p-5 hover:bg-primary/5 group cursor-default"
-                >
-                  <div className="w-14 h-14 flex items-center justify-center mb-3">
-                    <img
-                      src={img}
-                      alt={name}
-                      className="w-full h-full object-contain drop-shadow-sm group-hover:scale-110 transition-transform duration-200"
-                    />
-                  </div>
-                  <div
-                    className="font-extrabold uppercase text-sm tracking-wide mb-1 group-hover:text-primary transition-colors"
-                    style={{ fontFamily: "Baloo 2, sans-serif" }}
-                  >
-                    {name}
-                  </div>
-                  <div className="text-xs text-muted-foreground italic leading-relaxed">{note}</div>
-                </div>
-              ))}
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* Jeff's Rules */}
-      <section id="rules" className="py-24 border-t border-border">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <div className="text-accent text-xs font-bold uppercase tracking-[0.3em] mb-4">Posted At The Gate</div>
-            <h2
-              className="text-5xl md:text-6xl font-extrabold uppercase"
-              style={{ fontFamily: "'Goudy Stout', serif", WebkitTextStroke: "6px #000", paintOrder: "stroke fill", color: "#f7dbbf" }}
-            >
-              Jeff's <span className="text-primary">Rules</span>
-            </h2>
-            <p className="text-muted-foreground mt-4 text-lg">
-              Click one. Every rule has a comeback it wasn't expecting.
-            </p>
-          </div>
-          <div className="grid md:grid-cols-2 gap-6">
-            {RULES.map(({ icon: Icon, rule, counter }, i) => {
-              const isOpen = openRule === i;
-              return (
-                <button
-                  key={rule}
-                  onClick={() => setOpenRule(isOpen ? null : i)}
-                  className="comic-panel text-left bg-card rounded-2xl p-8 group"
-                >
-                  <div className="flex items-start justify-between gap-4 mb-4">
-                    <div className="w-12 h-12 rounded-full bg-primary/10 border-2 border-ink flex items-center justify-center shrink-0 group-hover:bg-primary/20 transition-colors">
-                      <Icon size={20} className="text-primary" />
                     </div>
-                    <span className="text-3xl font-extrabold text-muted-foreground/40" style={{ fontFamily: "Baloo 2, sans-serif" }}>
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
+                    <div className="text-xs text-muted-foreground italic leading-relaxed">{note}</div>
                   </div>
-                  <h3
-                    className="text-xl font-extrabold uppercase tracking-wide mb-3"
-                    style={{ fontFamily: "Baloo 2, sans-serif" }}
-                  >
-                    {rule}
-                  </h3>
-                  {isOpen ? (
-                    <p className="text-accent leading-relaxed italic font-medium">{counter}</p>
-                  ) : (
-                    <p className="text-muted-foreground text-sm uppercase tracking-widest font-bold">
-                      Tap for the counterpoint →
-                    </p>
-                  )}
-                </button>
-              );
-            })}
-            <div className="comic-panel bg-primary/5 rounded-2xl p-8 flex flex-col justify-center rotate-[-0.5deg]">
-              <p
-                className="text-xl font-extrabold uppercase tracking-wide mb-2 text-primary"
-                style={{ fontFamily: "Baloo 2, sans-serif" }}
-              >
-                But who writes the rules?
-              </p>
-              <p className="text-muted-foreground leading-relaxed font-medium">
-                Currently: Jeff. Unanimously. In a meeting attended only by Jeff.
-              </p>
+                ))}
+              </div>
+
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* The Line — interactive fence slider */}
-      <section id="the-line" className="relative pt-48 pb-0 bg-card/75 backdrop-blur-sm border-t border-border overflow-hidden">
+        {/* Jeff's Rules */}
+        <section id="rules" className="py-16 sm:py-24 border-t border-border">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6">
+            <div className="text-center mb-12 sm:mb-16">
+              <div className="text-accent text-xs font-bold uppercase tracking-[0.3em] mb-3 sm:mb-4">Posted At The Gate</div>
+              <h2
+                className="font-extrabold uppercase"
+                style={{
+                  fontFamily: "'Goudy Stout', serif",
+                  WebkitTextStroke: "4px #000",
+                  paintOrder: "stroke fill",
+                  color: "#f7dbbf",
+                  fontSize: "clamp(2rem, 7vw, 3.75rem)",
+                }}
+              >
+                Jeff's <span className="text-primary">Rules</span>
+              </h2>
+              <p className="text-muted-foreground mt-3 sm:mt-4 text-base sm:text-lg">
+                Click one. Every rule has a comeback it wasn't expecting.
+              </p>
+            </div>
+            <div className="grid md:grid-cols-2 gap-4 sm:gap-6">
+              {RULES.map(({ icon: Icon, rule, counter }, i) => {
+                const isOpen = openRule === i;
+                return (
+                  <button
+                    key={rule}
+                    onClick={() => setOpenRule(isOpen ? null : i)}
+                    className="comic-panel text-left bg-card rounded-2xl p-5 sm:p-8 group"
+                  >
+                    <div className="flex items-start justify-between gap-4 mb-3 sm:mb-4">
+                      <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-primary/10 border-2 border-ink flex items-center justify-center shrink-0 group-hover:bg-primary/20 transition-colors">
+                        <Icon size={18} className="text-primary" />
+                      </div>
+                      <span className="text-2xl sm:text-3xl font-extrabold text-muted-foreground/40" style={{ fontFamily: "Baloo 2, sans-serif" }}>
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                    </div>
+                    <h3
+                      className="text-lg sm:text-xl font-extrabold uppercase tracking-wide mb-2 sm:mb-3"
+                      style={{ fontFamily: "Baloo 2, sans-serif" }}
+                    >
+                      {rule}
+                    </h3>
+                    {isOpen ? (
+                      <p className="text-accent leading-relaxed italic font-medium text-sm sm:text-base">{counter}</p>
+                    ) : (
+                      <p className="text-muted-foreground text-xs sm:text-sm uppercase tracking-widest font-bold">
+                        Tap for the counterpoint →
+                      </p>
+                    )}
+                  </button>
+                );
+              })}
+              <div className="comic-panel bg-primary/5 rounded-2xl p-5 sm:p-8 flex flex-col justify-center rotate-[-0.5deg]">
+                <p
+                  className="text-lg sm:text-xl font-extrabold uppercase tracking-wide mb-2 text-primary"
+                  style={{ fontFamily: "Baloo 2, sans-serif" }}
+                >
+                  But who writes the rules?
+                </p>
+                <p className="text-muted-foreground leading-relaxed font-medium text-sm sm:text-base">
+                  Currently: Jeff. Unanimously. In a meeting attended only by Jeff.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
 
-        {/* Tower — pinned to left edge of screen, vertically centered in section */}
-        <img
-          src={towersideImg}
-          alt="Castle tower"
-          className="hidden lg:block absolute left-0 bottom-0 w-[260px] xl:w-[340px] h-auto object-contain object-bottom pointer-events-none"
-          style={{ filter: "drop-shadow(6px 0 20px rgba(0,0,0,0.6))" }}
-        />
+        {/* The Line — interactive fence slider */}
+        <section id="the-line" className="relative pt-20 sm:pt-36 lg:pt-48 pb-0 bg-card/75 backdrop-blur-sm border-t border-border overflow-hidden">
 
-        {/* Forest — pinned to right edge of screen */}
-        <img
-          src={forestsideImg}
-          alt="Forest with wolves"
-          className="hidden lg:block absolute right-0 bottom-0 w-[260px] xl:w-[340px] h-auto object-contain object-bottom pointer-events-none"
-          style={{ filter: "drop-shadow(-6px 0 20px rgba(0,0,0,0.6))" }}
-        />
+          {/* Tower / Forest — desktop only */}
+          <img
+            src={towersideImg}
+            alt="Castle tower"
+            className="hidden lg:block absolute left-0 bottom-0 w-[260px] xl:w-[340px] h-auto object-contain object-bottom pointer-events-none"
+            style={{ filter: "drop-shadow(6px 0 20px rgba(0,0,0,0.6))" }}
+          />
+          <img
+            src={forestsideImg}
+            alt="Forest with wolves"
+            className="hidden lg:block absolute right-0 bottom-0 w-[260px] xl:w-[340px] h-auto object-contain object-bottom pointer-events-none"
+            style={{ filter: "drop-shadow(-6px 0 20px rgba(0,0,0,0.6))" }}
+          />
 
-        <div className="max-w-4xl mx-auto px-6 pb-20">
-          <div className="text-center mb-16">
-            <div className="text-accent text-xs font-bold uppercase tracking-[0.3em] mb-4">The Only Real Question</div>
-            <h2
-              className="text-5xl md:text-6xl font-extrabold uppercase"
-              style={{ fontFamily: "'Goudy Stout', serif", WebkitTextStroke: "6px #000", paintOrder: "stroke fill", color: "#f7dbbf" }}
-            >
-              The <span className="text-primary">Line</span>
-            </h2>
-            <p className="text-muted-foreground mt-4 text-lg max-w-2xl mx-auto">
-              How high should the fence be? Who gets through the gate? How much security is enough — and who
-              decided that? Drag it and find out where you land.
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 pb-16 sm:pb-20">
+            <div className="text-center mb-12 sm:mb-16">
+              <div className="text-accent text-xs font-bold uppercase tracking-[0.3em] mb-3 sm:mb-4">The Only Real Question</div>
+              <h2
+                className="font-extrabold uppercase"
+                style={{
+                  fontFamily: "'Goudy Stout', serif",
+                  WebkitTextStroke: "4px #000",
+                  paintOrder: "stroke fill",
+                  color: "#f7dbbf",
+                  fontSize: "clamp(2rem, 7vw, 3.75rem)",
+                }}
+              >
+                The <span className="text-primary">Line</span>
+              </h2>
+              <p className="text-muted-foreground mt-3 sm:mt-4 text-base sm:text-lg max-w-2xl mx-auto">
+                How high should the fence be? Who gets through the gate? How much security is enough — and who
+                decided that? Drag it and find out where you land.
+              </p>
+            </div>
+
+            <div className="comic-panel bg-background rounded-[1.5rem] sm:rounded-[2rem] p-5 sm:p-8 md:p-12">
+              <div className="flex items-center justify-between text-xs font-extrabold uppercase tracking-widest mb-4" style={{ fontFamily: "Baloo 2, sans-serif" }}>
+                <span className="text-accent">Home</span>
+                <span className="text-primary">Forest</span>
+              </div>
+
+              {/* Bigger touch target on mobile */}
+              <input
+                type="range"
+                min={0}
+                max={100}
+                value={fenceHeight}
+                onChange={(e) => setFenceHeight(Number(e.target.value))}
+                className="w-full h-4 sm:h-3 rounded-full appearance-none cursor-pointer accent-primary border-2 border-ink"
+                style={{
+                  background: `linear-gradient(to right, #4B5D3A ${fenceHeight}%, #2A2621 ${fenceHeight}%)`,
+                }}
+                aria-label="Fence height"
+              />
+
+              <div className="text-center mt-8 sm:mt-10">
+                <div
+                  className="text-primary text-xs font-extrabold uppercase tracking-[0.3em] mb-3"
+                  style={{ fontFamily: "Baloo 2, sans-serif" }}
+                >
+                  Current Setting: {level.label}
+                </div>
+                <p className="text-foreground text-base sm:text-lg md:text-xl leading-relaxed max-w-xl mx-auto font-medium">
+                  {level.body}
+                </p>
+              </div>
+
+              <div className="grid sm:grid-cols-2 gap-3 mt-8 sm:mt-12 text-sm text-muted-foreground">
+                {[
+                  "How high should the fence be?",
+                  "Who gets through the gate?",
+                  "How much security is enough?",
+                  "What happens when fear becomes policy?",
+                ].map((q) => (
+                  <div key={q} className="flex items-start gap-2 bg-card border-2 border-ink rounded-xl px-3 sm:px-4 py-3 font-medium text-xs sm:text-sm">
+                    <AlertTriangle size={14} className="text-primary mt-0.5 shrink-0" />
+                    {q}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-8 sm:mt-10 text-center">
+              <a
+                href="https://x.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="comic-btn inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-6 sm:px-8 py-3.5 sm:py-4 rounded-full font-extrabold uppercase tracking-widest text-sm"
+                style={{ fontFamily: "Baloo 2, sans-serif" }}
+              >
+                <Twitter size={16} />
+                Follow The Story
+              </a>
+            </div>
+          </div>
+
+          <div className="mt-8 sm:mt-10 border-t-[3px] border-ink pt-6 sm:pt-8 text-center">
+            <p className="text-muted-foreground text-xs uppercase tracking-widest px-4 sm:px-6 font-semibold pb-4 sm:pb-0">
+              JEFF © 2026 — A work of satire. No actual wolves, pigs, or policies were harmed. Jeff's blood pressure, possibly.
             </p>
           </div>
-
-          <div className="comic-panel bg-background rounded-[2rem] p-8 md:p-12">
-            <div className="flex items-center justify-between text-xs font-extrabold uppercase tracking-widest mb-4" style={{ fontFamily: "Baloo 2, sans-serif" }}>
-              <span className="text-accent">Home</span>
-              <span className="text-primary">Forest</span>
-            </div>
-
-            <input
-              type="range"
-              min={0}
-              max={100}
-              value={fenceHeight}
-              onChange={(e) => setFenceHeight(Number(e.target.value))}
-              className="w-full h-3 rounded-full appearance-none cursor-pointer accent-primary border-2 border-ink"
-              style={{
-                background: `linear-gradient(to right, #4B5D3A ${fenceHeight}%, #2A2621 ${fenceHeight}%)`,
-              }}
-              aria-label="Fence height"
-            />
-
-            <div className="text-center mt-10">
-              <div
-                className="text-primary text-xs font-extrabold uppercase tracking-[0.3em] mb-3"
-                style={{ fontFamily: "Baloo 2, sans-serif" }}
-              >
-                Current Setting: {level.label}
-              </div>
-              <p className="text-foreground text-lg md:text-xl leading-relaxed max-w-xl mx-auto font-medium">
-                {level.body}
-              </p>
-            </div>
-
-            <div className="grid sm:grid-cols-2 gap-3 mt-12 text-sm text-muted-foreground">
-              {[
-                "How high should the fence be?",
-                "Who gets through the gate?",
-                "How much security is enough?",
-                "What happens when fear becomes policy?",
-              ].map((q) => (
-                <div key={q} className="flex items-start gap-2 bg-card border-2 border-ink rounded-xl px-4 py-3 font-medium">
-                  <AlertTriangle size={14} className="text-primary mt-0.5 shrink-0" />
-                  {q}
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="mt-10 text-center">
-            <a
-              href="https://x.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="comic-btn inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-8 py-4 rounded-full font-extrabold uppercase tracking-widest text-sm"
-              style={{ fontFamily: "Baloo 2, sans-serif" }}
-            >
-              <Twitter size={16} />
-              Follow The Story
-            </a>
-          </div>
-        </div>
-
-        <div className="mt-10 border-t-[3px] border-ink pt-8 text-center">
-          <p className="text-muted-foreground text-xs uppercase tracking-widest px-6 font-semibold">
-            JEFF © 2026 — A work of satire. No actual wolves, pigs, or policies were harmed. Jeff's blood pressure, possibly.
-          </p>
-        </div>
-      </section>
+        </section>
 
       </div>
-      {/* end relative z-10 content wrapper */}
     </div>
   );
 }
