@@ -42,19 +42,16 @@ const RULES = [
     icon: Shield,
     rule: "Protect the home.",
     counter: "Whose home, exactly? The yard was two acres in March. It is currently visible from space.",
-    bg: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&q=80",
   },
   {
     icon: Eye,
     rule: "Know who is approaching.",
     counter: "Jeff has never actually met a wolf. He met one (1) large raccoon in 2019, and it changed him.",
-    bg: "https://images.unsplash.com/photo-1448375240586-882707db888b?w=800&q=80",
   },
   {
     icon: Siren,
     rule: "Prepare before the threat arrives.",
     counter: "Reasonable, in theory. It's also why Jeff owns 40 rolls of duct tape and zero umbrellas.",
-    bg: "https://images.unsplash.com/photo-1553481187-be93c21490a9?w=800&q=80",
   },
 ];
 
@@ -384,20 +381,20 @@ export default function App() {
       {/* Meet Jeff / Dossier */}
       <section id="about" className="py-24 bg-card/75 backdrop-blur-sm border-t border-border overflow-hidden relative">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="flex flex-col lg:flex-row items-stretch justify-center gap-10">
+          <div className="flex flex-col lg:flex-row items-center justify-center gap-10">
 
             {/* Jeff full-body */}
-            <div className="shrink-0 flex items-center justify-center" style={{ height: "520px" }}>
+            <div className="shrink-0 flex items-center justify-center">
               <ImageWithFallback
                 src={jeffFullBody}
                 alt="Jeff the pig, standing in full military gear"
-                className="h-full w-auto object-contain"
+                className="h-[480px] w-auto object-contain"
                 style={{ filter: "drop-shadow(6px 0 16px rgba(0,0,0,0.6))" }}
               />
             </div>
 
             {/* Text */}
-            <div className="shrink-0 max-w-xs flex flex-col justify-center">
+            <div className="shrink-0 max-w-sm">
               <div className="text-accent text-xs font-bold uppercase tracking-[0.3em] mb-4">Classified Dossier</div>
               <h2
                 className="text-5xl md:text-6xl font-extrabold uppercase leading-tight mb-6"
@@ -427,7 +424,7 @@ export default function App() {
               {INVENTORY.map(({ img, name, note }) => (
                 <div
                   key={name}
-                  className="comic-panel bg-background rounded-2xl p-5 hover:bg-primary/5 group cursor-default h-[140px] flex flex-col justify-between"
+                  className="comic-panel bg-background rounded-2xl p-5 hover:bg-primary/5 group cursor-default"
                 >
                   <div className="w-14 h-14 flex items-center justify-center mb-3">
                     <img
@@ -467,68 +464,48 @@ export default function App() {
             </p>
           </div>
           <div className="grid md:grid-cols-2 gap-6">
-            {RULES.map(({ icon: Icon, rule, counter, bg }, i) => {
+            {RULES.map(({ icon: Icon, rule, counter }, i) => {
               const isOpen = openRule === i;
               return (
                 <button
                   key={rule}
                   onClick={() => setOpenRule(isOpen ? null : i)}
-                  className="comic-panel text-left rounded-2xl p-8 group overflow-hidden relative"
+                  className="comic-panel text-left bg-card rounded-2xl p-8 group"
                 >
-                  {/* Background image */}
-                  <div
-                    className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
-                    style={{ backgroundImage: `url(${bg})` }}
-                  />
-                  {/* Dark overlay */}
-                  <div className="absolute inset-0 bg-black/85 group-hover:bg-black/75 transition-colors duration-300" />
-                  {/* Content */}
-                  <div className="relative z-10">
-                    <div className="flex items-start justify-between gap-4 mb-4">
-                      <div className="w-12 h-12 rounded-full bg-primary/20 border-2 border-ink flex items-center justify-center shrink-0 group-hover:bg-primary/40 transition-colors">
-                        <Icon size={20} className="text-primary" />
-                      </div>
-                      <span className="text-3xl font-extrabold text-white/30" style={{ fontFamily: "Baloo 2, sans-serif" }}>
-                        {String(i + 1).padStart(2, "0")}
-                      </span>
+                  <div className="flex items-start justify-between gap-4 mb-4">
+                    <div className="w-12 h-12 rounded-full bg-primary/10 border-2 border-ink flex items-center justify-center shrink-0 group-hover:bg-primary/20 transition-colors">
+                      <Icon size={20} className="text-primary" />
                     </div>
-                    <h3
-                      className="text-xl font-extrabold uppercase tracking-wide mb-3 text-white"
-                      style={{ fontFamily: "Baloo 2, sans-serif" }}
-                    >
-                      {rule}
-                    </h3>
-                    {isOpen ? (
-                      <p className="text-accent leading-relaxed italic font-medium">{counter}</p>
-                    ) : (
-                      <p className="text-white/60 text-sm uppercase tracking-widest font-bold">
-                        Tap for the counterpoint →
-                      </p>
-                    )}
+                    <span className="text-3xl font-extrabold text-muted-foreground/40" style={{ fontFamily: "Baloo 2, sans-serif" }}>
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
                   </div>
+                  <h3
+                    className="text-xl font-extrabold uppercase tracking-wide mb-3"
+                    style={{ fontFamily: "Baloo 2, sans-serif" }}
+                  >
+                    {rule}
+                  </h3>
+                  {isOpen ? (
+                    <p className="text-accent leading-relaxed italic font-medium">{counter}</p>
+                  ) : (
+                    <p className="text-muted-foreground text-sm uppercase tracking-widest font-bold">
+                      Tap for the counterpoint →
+                    </p>
+                  )}
                 </button>
               );
             })}
-            <div
-              className="comic-panel rounded-2xl p-8 flex flex-col justify-center rotate-[-0.5deg] overflow-hidden relative"
-            >
-              {/* Background image for the last card — a meeting/rules theme */}
-              <div
-                className="absolute inset-0 bg-cover bg-center"
-                style={{ backgroundImage: "url(https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80)" }}
-              />
-              <div className="absolute inset-0 bg-black/85" />
-              <div className="relative z-10">
-                <p
-                  className="text-xl font-extrabold uppercase tracking-wide mb-2 text-primary"
-                  style={{ fontFamily: "Baloo 2, sans-serif" }}
-                >
-                  But who writes the rules?
-                </p>
-                <p className="text-white/70 leading-relaxed font-medium">
-                  Currently: Jeff. Unanimously. In a meeting attended only by Jeff.
-                </p>
-              </div>
+            <div className="comic-panel bg-primary/5 rounded-2xl p-8 flex flex-col justify-center rotate-[-0.5deg]">
+              <p
+                className="text-xl font-extrabold uppercase tracking-wide mb-2 text-primary"
+                style={{ fontFamily: "Baloo 2, sans-serif" }}
+              >
+                But who writes the rules?
+              </p>
+              <p className="text-muted-foreground leading-relaxed font-medium">
+                Currently: Jeff. Unanimously. In a meeting attended only by Jeff.
+              </p>
             </div>
           </div>
         </div>
