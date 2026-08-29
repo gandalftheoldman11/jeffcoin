@@ -269,7 +269,7 @@ export default function App() {
 
           <p className="text-muted-foreground text-lg md:text-xl max-w-4xl mx-auto mb-12 leading-relaxed">
             Jeff built the fence before anyone asked why. He stocked the bunker before anyone else noticed the wolves.
-            He was right once, in 2019, about a raccoon — and he has{" "}
+            He was right once, in 2019, about a raccoon and he has{" "}
             <span className="text-foreground font-bold italic">never let it go.</span>{" "}
             This is his compound. His rules. His{" "}
             <span className="text-primary font-bold">very strongly held opinions about perimeter security.</span>
